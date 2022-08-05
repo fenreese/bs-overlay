@@ -1,38 +1,6 @@
 import { getAPI } from "../helpers/api";
 import { Global } from "../globals";
-
-export interface BeatSaverInfo {
-    rankedStatus: string;
-    bsrKey: string;
-    diffInfo?: BeatSaverDiffInfo
-}
-
-export interface BeatSaverDiffInfo {
-    numBloqs: number;
-    nps: number;
-    njs: number
-}
-
-export interface BeatSaverDiffResponse {
-    bombs: number,
-    characteristic: string,
-    chroma: boolean,
-    cinema: boolean,
-    difficulty: string,
-    events: number,
-    length: number,
-    maxScore: number,
-    me: boolean,
-    ne: boolean,
-    njs: number,
-    notes: number,
-    nps: number,
-    obstacles: number,
-    offset: number,
-    paritySummary: Object,
-    seconds: number,
-    stars: number,
-}
+import { BeatSaverDiffResponse, BeatSaverDiffInfo, BeatSaverInfo, RankedStatus } from '../models/BeatSaver';
 
 export const getBeatSaverInfo = async (hash: String, difficulty: String, characteristic: String): Promise<BeatSaverInfo | any> => {
     try {
@@ -65,12 +33,12 @@ export const getBeatSaverInfo = async (hash: String, difficulty: String, charact
             };
         }
 
-        let rankedStatus = "Unranked";
+        let rankedStatus = RankedStatus.UNRANKED;
 
         if (dataJSON.qualified) {
-            rankedStatus = "Qualified";
+            rankedStatus = RankedStatus.QUALIFIED;
         } else if (dataJSON.ranked) {
-            rankedStatus = "Ranked";
+            rankedStatus = RankedStatus.RANKED;
         }
 
         let info: BeatSaverInfo = {
