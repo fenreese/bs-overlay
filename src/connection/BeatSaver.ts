@@ -8,54 +8,79 @@ export interface BeatSaverInfo {
 }
 
 export interface BeatSaverDiffInfo {
-    numBloqs?: number;
-    nps?: number;
-    njs?: number
+    numBloqs: number;
+    nps: number;
+    njs: number
 }
 
-export const getBeatSaverInfo = async (hash: String, difficulty: String, characteristic: String): Promise<any> => {
+export interface BeatSaverDiffResponse {
+    bombs: number,
+    characteristic: string,
+    chroma: boolean,
+    cinema: boolean,
+    difficulty: string,
+    events: number,
+    length: number,
+    maxScore: number,
+    me: boolean,
+    ne: boolean,
+    njs: number,
+    notes: number,
+    nps: number,
+    obstacles: number,
+    offset: number,
+    paritySummary: Object,
+    seconds: number,
+    stars: number,
+}
 
+export const getBeatSaverInfo = async (hash: String, difficulty: String, characteristic: String): Promise<BeatSaverInfo | any> => {
     try {
         let dataJSON: any = await getAPI(Global.BEATSAVER_URL + hash);
+        // console.log(dataJSON);
 
-        if (!("error" in dataJSON)) {
-            let currentChart = [];
-            let currDiffInfo: BeatSaverDiffInfo = {};
+        let currentChart = <BeatSaverDiffResponse>{};
+        let currDiffInfo = <BeatSaverDiffInfo>{};
 
-            // what does BeatSaver say about the stats of this map?
-            for (let diff in dataJSON.versions[0].diffs) {
-                let diffInfo = dataJSON.versions[0].diffs[diff];
-                if (diffInfo.characteristic === characteristic &&
-                    diffInfo.difficulty === difficulty) {
-                    currentChart == diffInfo;
-                    break;
-                }
+        // what does BeatSaver say about the stats of this map?
+        for (let diff in dataJSON.versions[0].diffs) {
+            let diffInfo = dataJSON.versions[0].diffs[diff];
+            if (diffInfo.characteristic === characteristic &&
+                diffInfo.difficulty === difficulty) {
+                currentChart = diffInfo;
+                break;
             }
-
-            if (currentChart.length) {
-                currDiffInfo = {
-                    numBloqs: currentChart.notes,
-                    nps: currentChart.nps.toFixed(2),
-                    njs: currentChart.njs,
-                };
-            }
-
-            let rankedStatus = "Unranked";
-
-            if (dataJSON.qualified) {
-                rankedStatus = "Qualified";
-            } else if (dataJSON.ranked) {
-                rankedStatus = "Ranked";
-            }
-
-            let info: BeatSaverInfo = {
-                rankedStatus,
-                bsrKey: dataJSON.id,
-                diffInfo: currDiffInfo,
-            }
-
-            return info;
         }
+        // console.log(currentChart);
+
+        if (Object.keys(currentChart).length === 0) {
+            throw new Error('no matching difficulty found');
+        }
+
+        if (currentChart.length) {
+            currDiffInfo = {
+                numBloqs: currentChart.notes,
+                nps: currentChart.nps,
+                njs: currentChart.njs,
+            };
+        }
+
+        let rankedStatus = "Unranked";
+
+        if (dataJSON.qualified) {
+            rankedStatus = "Qualified";
+        } else if (dataJSON.ranked) {
+            rankedStatus = "Ranked";
+        }
+
+        let info: BeatSaverInfo = {
+            rankedStatus,
+            bsrKey: dataJSON.id,
+            diffInfo: currDiffInfo,
+        }
+        // console.log(info);
+
+        return info;
     } catch (err) {
         console.log(err);
     }
