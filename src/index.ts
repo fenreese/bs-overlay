@@ -1,21 +1,15 @@
+import BSPConn from "./connection/BeatSaberPlus";
+import HTTPConn from "./connection/HTTPStatus";
+import * as Global from "./globals";
+
 function init() {
-    const form = document.querySelector("form");
-    form?.addEventListener("submit", submitHandler);
-}
-
-function submitHandler(e: Event) {
-    e.preventDefault();
-    const a = document.querySelector("input[name='a']") as HTMLInputElement;
-    const b = document.querySelector("input[name='b']") as HTMLInputElement;
-    const result = add(Number(a.value), Number(b.value));
-    const resultElement = document.querySelector("p");
-    if (resultElement) {
-        resultElement.textContent = result.toString();
+    const placeholder = document.querySelector(".placeholder");
+    if (placeholder != null) {
+        placeholder.textContent = "Hello from Webpack!";
     }
-}
-
-function add(a: number, b: number) {
-    return a + b;
+    let websocket = null;
+    // websocket = new HTTPConn(Global.LOCALHOST, Global.HTTPStatus.port, Global.HTTPStatus.entry);
+    websocket = new BSPConn(Global.LOCALHOST, Global.BSPlus.port, Global.BSPlus.entry);
 }
 
 init();

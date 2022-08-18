@@ -3,6 +3,10 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
     entry: './src/index.ts',
+    watchOptions: {
+        poll: true,
+        ignored: /node_modules/
+    },
     module: {
         rules: [
             {

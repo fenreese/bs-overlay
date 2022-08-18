@@ -1,18 +1,18 @@
 import { getAPI } from "../helpers/api";
-import { Global } from "../globals";
+import * as Global from "../globals";
 import { BeatSaverDiffResponse, BeatSaverDiffInfo, BeatSaverInfo, RankedStatus } from '../models/BeatSaver';
 
-export const getBeatSaverInfo = async (hash: String, difficulty: String, characteristic: String): Promise<BeatSaverInfo | any> => {
+export const getBeatSaverInfo = async (hash: string, difficulty: string, characteristic: string): Promise<BeatSaverInfo | any> => {
     try {
-        let dataJSON: any = await getAPI(Global.BEATSAVER_URL + hash);
+        const dataJSON: any = await getAPI(Global.BEATSAVER_URL + hash);
         // console.log(dataJSON);
 
         let currentChart = <BeatSaverDiffResponse>{};
         let currDiffInfo = <BeatSaverDiffInfo>{};
 
         // what does BeatSaver say about the stats of this map?
-        for (let diff in dataJSON.versions[0].diffs) {
-            let diffInfo = dataJSON.versions[0].diffs[diff];
+        for (const diff in dataJSON.versions[0].diffs) {
+            const diffInfo = dataJSON.versions[0].diffs[diff];
             if (diffInfo.characteristic === characteristic &&
                 diffInfo.difficulty === difficulty) {
                 currentChart = diffInfo;
@@ -39,9 +39,10 @@ export const getBeatSaverInfo = async (hash: String, difficulty: String, charact
             rankedStatus = RankedStatus.QUALIFIED;
         } else if (dataJSON.ranked) {
             rankedStatus = RankedStatus.RANKED;
+            currDiffInfo.stars = currentChart.stars;
         }
 
-        let info: BeatSaverInfo = {
+        const info: BeatSaverInfo = {
             rankedStatus,
             bsrKey: dataJSON.id,
             diffInfo: currDiffInfo,

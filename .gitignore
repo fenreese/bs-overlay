@@ -4,7 +4,7 @@
 *.tsbuildinfo
 
 # Directories
-dist/
+dist/bundle.js
 node_modules/
 
 # Env files

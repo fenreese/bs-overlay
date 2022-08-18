@@ -13,7 +13,8 @@ export interface BeatSaverInfo {
 export interface BeatSaverDiffInfo {
     numBloqs: number;
     nps: number;
-    njs: number
+    njs: number;
+    stars?: number
 }
 
 export interface BeatSaverDiffResponse {
@@ -32,7 +33,11 @@ export interface BeatSaverDiffResponse {
     nps: number,
     obstacles: number,
     offset: number,
-    paritySummary: Object,
+    paritySummary: {
+        errors: number,
+        resets: number,
+        warns: number,
+    },
     seconds: number,
     stars: number,
 }
