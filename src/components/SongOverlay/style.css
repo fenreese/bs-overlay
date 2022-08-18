@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+:root {
+    --outlineColor: black;
+    --outlineFilter: drop-shadow(1px 0px 0px var(--outlineColor))
+    drop-shadow(1px -1px 0px var(--outlineColor))
+    drop-shadow(1px 1px 0px var(--outlineColor))
+    drop-shadow(0px -1px 0px var(--outlineColor))
+    drop-shadow(0px 1px 0px var(--outlineColor))
+    drop-shadow(-1px 0px 0px var(--outlineColor))
+    drop-shadow(-1px -1px 0px var(--outlineColor))
+    drop-shadow(-1px 1px 0px var(--outlineColor));
+}
+
+#song-info {
+    font-family: 'Manrope';
+    color: #fff;
+    display: flex;
+    gap: 10px;
+    
+}
+
+#song-info div {
+    margin: 5px;
+}
+
+.title, .subtitle, .artist {
+    filter: var(--outlineFilter);
+}
+
+.jacket {
+    width: 100px;
+    height: 100px;
+}
+
+.jacket img {
+    width: 100%;
+}
+
+.below-jacket {
+    text-align: center;
+    vertical-align: middle;
+    width: 90px;
+    background-color: hotpink;
+    padding: 5px;
+    font-weight: 600;
+}
+
+.bsr {
+    font-family: "JetBrains Mono";
+}
+
+.title {
+    font-size: 3em;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 2.5em;
+    font-weight: 600;
+}
+
+.artist {
+    font-size: 1.5em;
+    font-weight: 600;
+}

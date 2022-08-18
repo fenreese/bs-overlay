@@ -9,8 +9,11 @@
     "noImplicitReturns": true,
     "strict": true,
     "noEmit": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "declaration": true,
   },
-  "include": ["src/**/*", "tests"],
+  "include": ["src/**/*", "tests", "custom.d.ts"],
   "exclude": ["node_modules"]
 }

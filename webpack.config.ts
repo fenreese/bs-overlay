@@ -19,6 +19,18 @@ module.exports = {
                 },
                 exclude: /node_modules/,
             },
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
+            },
+            {
+                test: /\.html$/i,
+                loader: 'html-loader',
+            },
         ],
     },
     resolve: {
@@ -33,7 +45,7 @@ module.exports = {
             directory: path.resolve(__dirname, 'dist'),
         },
         compress: true,
-        port: 4000,
+        port: 6969,
     },
     plugins: [
         new ESLintPlugin({

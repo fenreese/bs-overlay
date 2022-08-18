@@ -1,5 +1,5 @@
 import { getAPI } from "../helpers/api";
-import * as Global from "../globals";
+import * as Global from "../configs";
 import { BeatSaverDiffResponse, BeatSaverDiffInfo, BeatSaverInfo, RankedStatus } from '../models/BeatSaver';
 
 export const getBeatSaverInfo = async (hash: string, difficulty: string, characteristic: string): Promise<BeatSaverInfo | any> => {
