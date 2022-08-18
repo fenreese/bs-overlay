@@ -36,7 +36,9 @@ export abstract class Conn {
             websocket: new WebSocket(route),
         }
 
-        this.connectWebSocket(bsws);
+        while (!bsws.isConnected) {
+            this.connectWebSocket(bsws);
+        }
 
         return bsws;
     }

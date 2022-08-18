@@ -8,5 +8,5 @@
 ## thanks
 - [HyldraZolxy's Beat Saber Overlay](https://github.com/HyldraZolxy/BeatSaber-Overlay)
 - TheBlackParrot's Beat Saber Overlays 
-    - (v5/BS+)[https://theblackparrot.me/bs_overlays/5/songInfo/]
-    - (v3/HTTPStatus)[https://theblackparrot.me/bs_overlays/3/songInfo/]
+    - [v5/BS+](https://theblackparrot.me/bs_overlays/5/songInfo/)
+    - [v3/HTTPStatus](https://theblackparrot.me/bs_overlays/3/songInfo/)
