@@ -1,4 +1,9 @@
-declare module '*.html' {
-    const content: string;
-    export default content;
+declare module '*.html?inline' {
+    const value: string;
+    export default value;
+}
+
+declare module '*.css?inline' {
+    const value: string;
+    export default value;
 }

@@ -1,3 +1,5 @@
+import { ConstantBackoff, WebsocketBuilder } from 'websocket-ts';
+
 export interface GameStates {
     paused: string,
     resumed: string,
@@ -12,53 +14,38 @@ export interface GameStates {
     stateChange?: string,
 }
 
-export interface BSWS {
-    websocket: WebSocket,
-    isConnected: boolean,
-}
-
 export abstract class Conn {
     protected gameStates: GameStates;
-    protected ws: any; // create another websocket in DPuller.ts 
+    protected isConnected: boolean = false;
     protected route: any;
 
     constructor(ip: string, port: string, entry: string, gameStates: GameStates) {
         this.gameStates = gameStates;
-
         this.route = `ws://${ip}:${port}/${entry}`;
-        console.log(`Connecting to websocket on ${this.route}...`)
-        this.ws = this.initWebsocket(this.route);
+
+        this.initWebSocket(this.route);
     }
 
-    private initWebsocket(route: string): BSWS {
-        const bsws: BSWS = {
-            isConnected: false,
-            websocket: new WebSocket(route),
-        }
+    private initWebSocket(route: string) {
+        console.log(`Connecting to websocket on ${route}...`);
 
-        this.connectWebSocket(bsws);
-
-        return bsws;
-    }
-
-    private connectWebSocket(ws: BSWS) {
-        ws.websocket.onopen = () => {
-            console.log('Connected to websocket!');
-            ws.isConnected = true;
-        }
-
-        ws.websocket.onclose = () => {
-            ws.isConnected = false;
-            console.log(`Connection to ${this.route} failed, retrying in 5 seconds...`);
-            setTimeout(this.connectWebSocket, 5000);
-        }
-
-        ws.websocket.onmessage = (message: any) => {
-            const msg = JSON.parse(message.data);
-            this.parseMessage(msg);
-        }
+        const _ws = new WebsocketBuilder(route)
+            .onOpen(() => {
+                console.log('Connected to websocket!');
+                this.isConnected = true;
+            })
+            .onClose(() => {
+                console.log(`Connection to ${route} failed, retrying in 5 seconds...`);
+            })
+            .onMessage((_, message) => {
+                const msg = JSON.parse(message.data);
+                this.parseMessage(msg);
+            })
+            .withBackoff(new ConstantBackoff(5000))
+            .build();
     }
 
     abstract parseMessage(message: any): void;
     abstract parseMapInfo(mapInfo: any): void;
 }
+
