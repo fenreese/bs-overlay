@@ -1,5 +1,6 @@
 import { getBeatSaverInfo } from './BeatSaver';
-import { GameStates, Conn } from './conn';
+import { Conn } from './conn';
+import { GameStates } from '../models/conn';
 import { convertMillis } from '../helpers/duration';
 
 const HTTPGameStates: GameStates = {

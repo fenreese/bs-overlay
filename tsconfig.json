@@ -14,6 +14,13 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "declaration": true,
+    "useDefineForClassFields": true,
+    "lib": ["ESNext", "DOM"],
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*", "tests", "custom.d.ts"],
   "exclude": ["node_modules"]

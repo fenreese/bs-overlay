@@ -1,6 +1,7 @@
 import { convertMillis } from '../helpers/duration';
 import { getBeatSaverInfo } from './BeatSaver';
-import { GameStates, Conn } from './conn';
+import { Conn } from './conn';
+import { GameStates, MapInformation } from '../models/conn';
 
 const BSPGameStates: GameStates = {
     paused: 'pause',
@@ -59,12 +60,28 @@ class BSPConn extends Conn {
         console.log(`Mapper: ${mapInfo.mapper} | Difficulty: ${mapInfo.difficulty}`);
         console.log(`Length: ${convertMillis(mapInfo.duration)}`);
 
+        let simplifiedMapInfo: MapInformation = {
+            title: mapInfo.name,
+            subtitle: mapInfo.sub_name,
+            artist: mapInfo.artist,
+            mapper: mapInfo.mapper,
+            image: `data:image/jpg;base64,${mapInfo.coverRaw}`,
+            length: mapInfo.duration,
+            difficulty: mapInfo.difficulty,
+        }
+
         Promise.resolve(getBeatSaverInfo(mapInfo.level_id, mapInfo.difficulty, mapInfo.characteristic).then(
             (value) => {
                 const info = value;
                 console.log(info);
+                simplifiedMapInfo.beatSaverInfo = info;
+            }
+        ).finally(
+            () => {
+                this.updateOverlay(simplifiedMapInfo);
             }
         ));
+
     }
 }
 

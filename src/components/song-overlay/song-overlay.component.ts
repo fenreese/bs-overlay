@@ -1,10 +1,10 @@
-import code from './index.html?inline';
-import style from '.style.css?inline';
+import code from './song-overlay.component.html?inline';
+import style from './song-overlay.component.css?inline';
 
 const overlay = document.createElement('template');
-$(overlay).html(`<style>${style}</style>${code}`);
+overlay.innerHTML = `<style>${style}</style>${code}`;
 
-export const SONG_TAG = 'song';
+export const SONG_TAG = 'song-overlay';
 
 export class SongOverlayComponent extends HTMLElement {
     private gameState: string;

@@ -1,9 +1,14 @@
 import $ from 'jquery';
 
+// idfk man lol
 import BSPConn from "./connection/BeatSaberPlus";
 import HTTPConn from "./connection/HTTPStatus";
+
+// lazy load + overlay switch kinda wonky
+import './components/song-overlay/song-overlay';
+import './components/home-page/home-page';
+
 import * as Global from "./configs";
-import SongOverlay from "./components/song-overlay/song-overlay.component";
 import { Conn } from './connection/conn';
 
 class Overlay {
@@ -18,17 +23,15 @@ class Overlay {
 
     public switchRoute(page: string) {
         switch (page) {
-            case '/song': {
-                import('./components/song-overlay/song-overlay').then(() => {
-                    $('#content').html('<song-overlay></song-overlay>');
-                });
-                this.setCurrentPage('song');
+            case '/song-overlay': {
+                $('#content').html('<song-overlay></song-overlay>');
+                this.setCurrentPage('song-overlay');
+                break;
             }
             default: {
-                import('./components/home-page/home-page').then(() => {
-                    $('#content').html('<home></home>');
-                });
-                this.setCurrentPage('song');
+                $('#content').html('<home-page></home-page>');
+                this.setCurrentPage('home-page');
+                break;
             }
         }
     }
@@ -42,3 +45,5 @@ window.onload = () => {
     const overlay = new Overlay();
     overlay.switchRoute(window.location.pathname);
 }
+
+console.log(customElements.get('song-overlay'));
